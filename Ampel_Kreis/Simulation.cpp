@@ -1,5 +1,6 @@
 #include "Simulation.h"
 #include "CarProp.h"
+
 void Simulation::initWindow()
 {
 	this->window = new sf::RenderWindow(sf::VideoMode(1500, 1000), "Kreuzverkehr", sf::Style::Close | sf::Style::Titlebar);
@@ -33,6 +34,8 @@ void Simulation::initKreisverkehr()
 		//std::cout << "kein hintergrund\n";
 	}
 	this->Kreisverkehr.setTexture(this->KreisverkehrTex);
+	this->Kreisverkehr.setOrigin(240.f, 240.f);
+	this->Kreisverkehr.setScale(2, 2);
 }
 
 void Simulation::renderWorld()
@@ -45,6 +48,11 @@ void Simulation::renderWorld()
 void Simulation::initGUI()
 {
 	gui = new GUI(this->window);
+}
+
+void Simulation::initSimulationKreisverkehr()
+{
+	simulationKreisverkehr = new SimulationKreis;
 }
 
 void Simulation::initAmpel()
@@ -80,6 +88,7 @@ Simulation::Simulation()
 	this->initGUI();
 	this->initCounter();
 	this->initAmpel();
+	this->initSimulationKreisverkehr();
 }
 
 
@@ -93,10 +102,7 @@ Simulation::~Simulation()
 	}
 
 	delete this->window2;
-	for (auto* i : this->autoso)
-	{
-		delete i;
-	}
+	
 
 	delete this->ampel;
 }
@@ -147,31 +153,6 @@ void Simulation::deleteAutos()
 }
 
 
-void Simulation::deleteAutosO()
-{
-	for (int i = 0; i < autoso.size(); i++) {
-		if (autoso[i]->getPos().x < 0) {
-			autoso.erase(autoso.begin() + i);
-			endCounterWestKV++;
-			std::cout << endCounterWestKV << std::endl;
-		}
-
-		else if (autoso[i]->getPos().x > 1000) {
-			autoso.erase(autoso.begin() + i);
-			endCounterEastKV++;
-		}
-
-		else if (autoso[i]->getPos().y > 1000) {
-			autoso.erase(autoso.begin() + i);
-			endCounterSouthKV++;
-		}
-		else if (autoso[i]->getPos().y < 0) {
-			autoso.erase(autoso.begin() + i);
-			endCounterNorthKV++;
-		}
-
-	}
-}
 
 
 void Simulation::updateAuto()
@@ -244,55 +225,7 @@ void Simulation::updateAuto()
 			//std::cout << "pushed back" << std::endl;
 		}
 	}
-	if (rndAnfahrt < 15) {
-		if (Functions::checkSpawnNorth1(autoso) == 0) {
-			spawn = Direction::NORTH;
-			//std::cout << "spawn auf nord" << std::endl;
-		}
-		else { spawn = Direction::NOWHERE; }
-	}
-	else if (rndAnfahrt < 50) {
-		if (Functions::checkSpawnEast1(autoso) == 0) {
-			spawn = Direction::EAST;
-			//std::cout << "spawn auf ost" << std::endl;
-		}
-		else { spawn = Direction::NOWHERE; }
-	}
-	else if (rndAnfahrt < 65) {
-		if (Functions::checkSpawnSouth1(autoso) == 0) {
-			spawn = Direction::SOUTH;
-			//std::cout << "spawn auf sued" << std::endl;
-		}
-		else { spawn = Direction::NOWHERE; }
-	}
-	else {
-		if (Functions::checkSpawnWest1(autoso) == 0) {
-			spawn = Direction::WEST;
-			//std::cout << "spawn auf west" << std::endl;
-		}
-		else { spawn = Direction::NOWHERE; }
-	}
-
-	if (spawn != Direction::NOWHERE) {
-		//rotes auto generieren
-		if (rndValue < 2) // rotes Auto 20 %
-		{
-			this->autoso.push_back(new AutosO(spawn, Color::RED, Direction::EAST));
-			//std::cout << "pushed back" << std::endl;
-		}
-		//Gelbes Auto generieren
-		if (rndValue >= 2 && rndValue < 9) // gelbes Auto 70%
-		{
-			this->autoso.push_back(new AutosO(spawn, Color::YELLOW, Direction::WEST));
-			//std::cout << "pushed back" << std::endl;
-		}
-		//Blaues Auto generieren
-		if (rndValue == 9) // blaues Auto 10 %
-		{
-			this->autoso.push_back(new AutosO(spawn, Color::BLUE, Direction::EAST));
-			//std::cout << "pushed back" << std::endl;
-		}
-	}
+	
 }
 
 
@@ -341,32 +274,23 @@ void Simulation::updateAfterStart(){
 	}
 
 
+	
 	this->deleteAutos();
-	this->deleteAutosO();
 
 	this->backToGUI();
 
 	this->ampel->cycleAmpel();
-
-	for (auto* car2 : this->autoso)
-	{
-		car2->update();
-		//std::cout << "Auto moved" << std::endl;
-	}
 
 	this->spawnTimer++;
 	//Auto bewegen
 	if (this->spawnTimer % 100 == 0) {
 		this->updateAuto();
 		//std::cout << "updateAuto\n";
-
+		this->simulationKreisverkehr->spawnAutos();
 	}
 
 	this->gui->updateCounterOutcome(endCounterNorth, endCounterEast, endCounterSouth, endCounterWest, startCounterNorth, startCounterEast, startCounterSouth, startCounterWest);
 	this->gui->updateCounterOutcomeKV(endCounterNorthKV, endCounterEastKV, endCounterSouthKV, endCounterWestKV, startCounterNorthKV, startCounterEastKV, startCounterSouthKV, startCounterWestKV);
-	if (this->spawnTimer % 100 == 0) {
-		this->updateAuto();
-	}
 }
 
 void Simulation::render() {
@@ -377,16 +301,11 @@ void Simulation::render() {
 	this->gui->render(this->window);
 	
 	this->renderWorld();
-
+	this->simulationKreisverkehr->renderAutosO(*this->window2);
 
 	for (auto* car : this->autos)
 	{
 		car->render(*this->window);
-	}
-
-	for (auto* car2 : this->autoso)
-	{
-		car2->render(*this->window2);
 	}
 
 	this->ampel->render(*this->window);

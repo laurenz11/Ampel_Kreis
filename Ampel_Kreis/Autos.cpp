@@ -2,6 +2,8 @@
 #include "CarProp.h"
 
 
+
+
 void Autos::initTexture(Color c)
 {
     switch (c) {

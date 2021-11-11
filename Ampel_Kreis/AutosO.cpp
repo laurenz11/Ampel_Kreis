@@ -18,10 +18,30 @@ void AutosO::initSprite()
     this->sprite.setOrigin(320, 640);
 }
 
-void AutosO::beschleunigung()
+void AutosO::initFahrtweg(Direction spawn, Direction direction) {
+    if (spawn == Direction::WEST && direction == Direction::SOUTH || spawn == Direction::SOUTH && direction == Direction::EAST || spawn == Direction::EAST && direction == Direction::NORTH || spawn == Direction::NORTH && direction == Direction::WEST)
+    {
+        fahrtweg = 0.5 * 3.14159 * 12.5;
+    }
+    else if (spawn == Direction::WEST && direction == Direction::EAST || spawn == Direction::SOUTH && direction == Direction::NORTH || spawn == Direction::EAST && direction == Direction::WEST || spawn == Direction::NORTH && direction == Direction::SOUTH)
+    {
+        fahrtweg = 3.14159 * 12.5;
+    }
+    else if (spawn == Direction::WEST && direction == Direction::NORTH || spawn == Direction::SOUTH && direction == Direction::WEST || spawn == Direction::EAST && direction == Direction::SOUTH || spawn == Direction::NORTH && direction == Direction::EAST)
+    {
+        fahrtweg = 1.5 * 3.14159 * 12.5;
+    }
+}
+
+void AutosO::beschleunige()
 {
-    this->speedp = speedp + 0.005;
-    this->speedm = speedm - 0.005;
+    geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
+    weg = 0.5 * beschleunigung * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
+}
+
+float AutosO::rechnungszeit()
+{
+    return this->internalTimer.getElapsedTime().asSeconds();
 }
 
 void AutosO::Kreisbewegung()
@@ -34,21 +54,19 @@ void AutosO::Kreisbewegung()
 
 void AutosO::bremsung()
 {
-    if (speedm < 0)
-    {
-        this->speedm + 0.01;
-    }
-    else this->speedm = 0;
-
-    if (speedp > 0)
-    {
-        this->speedp - 0.01;
-    }
-    else this->speedp = 0;
+    geschwindigkeit = bremsbeschleunigung * rechnungszeit();
+    weg = 0.5 * bremsbeschleunigung * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
 }
 
-AutosO::AutosO(Direction spawn, Color color, Direction direction)
+AutosO::AutosO(Direction spawn, Color color, Direction direction, float ReactionTime)
 {
+    this->beschleunigung = 1;
+    this->bremsbeschleunigung = -2;
+    this->reactionTime = ReactionTime;
+    this->internalTimer.restart();
+    this->anfangsgeschwindigkeit = 0;
+    this->initFahrtweg(spawn, direction);
+
     this->originalDirection = direction;
     switch (spawn) {
     case Direction::WEST: this->sprite.setPosition(20.f, 550.f); direction = Direction::EAST; break;
@@ -66,7 +84,11 @@ AutosO::AutosO(Direction spawn, Color color, Direction direction)
     case Direction::SOUTH: this->sprite.setRotation(180.f); break;
     case Direction::WEST: this->sprite.setRotation(270.f); break;
     }
+    std::cout << "Konstruktor aufgerufen" << std::endl;
+    
 }
+
+
 
 AutosO::~AutosO()
 {
@@ -94,7 +116,7 @@ const Direction AutosO::getCurrentDir() const
 }
 
 
-void AutosO::update()
+/*void AutosO::update()
 {
 
     switch (this->currentDirection)
@@ -219,7 +241,7 @@ void AutosO::update()
     }
     }
 
-}
+}*/
 
 void AutosO::render(sf::RenderTarget& target)
 {

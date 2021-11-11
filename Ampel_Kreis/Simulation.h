@@ -5,6 +5,8 @@
 #include "Ampel.h"
 #include "GUI.h"
 #include <time.h>
+#include "SimulationKreis.h"
+
 class Simulation
 {
 private:
@@ -15,7 +17,7 @@ private:
 	GUI* gui;
 	sf::Clock clock;
 
-	
+	SimulationKreis* simulationKreisverkehr;
 	Ampel* ampel;
 	//Autos
 	//Auto rot
@@ -25,14 +27,13 @@ private:
 	//Autos im Kreuzverkehr
 	std::vector<Autos*> autos;
 
-	//Autos im kreisverkehr
-	std::vector<AutosO*> autoso;
 	//Hintergrund
 	sf::Texture KreuzverkehrTex;
 	sf::Sprite Kreuzverkehr;
 	sf::Texture KreisverkehrTex;
 	sf::Sprite Kreisverkehr;
 
+	void initSimulationKreisverkehr();
 	void initAmpel();
 	void initWindow();
 	void initAuto();

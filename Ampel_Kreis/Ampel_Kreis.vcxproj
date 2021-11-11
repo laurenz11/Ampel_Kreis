@@ -151,7 +151,9 @@
     <ClInclude Include="CarProp.h" />
     <ClInclude Include="Functions.h" />
     <ClInclude Include="GUI.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Simulation.h" />
+    <ClInclude Include="SimulationKreis.h" />
     <ClInclude Include="StringConverter.h" />
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +165,10 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="Quelle.cpp" />
     <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="SimulationKreis.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Ampel_Kreis.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
