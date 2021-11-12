@@ -72,12 +72,18 @@ void AutosO::beschleunige()
     weg = 0.5 * (beschleunigung)*pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
 }
 
+void AutosO::beschleunigeOutKv()
+{
+    geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
+    weg = 0.5 * (beschleunigung)*2 + anfangsgeschwindigkeit * rechnungszeit();
+}
+
 void AutosO::beschleunigeInKV()
 {
     alphaBefore = alpha;
     geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
     alpha = 0.5 * (beschleunigung/(radius*0.1)) * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
-    std::cout << alpha << std::endl;
+    //std::cout << alpha << std::endl;
     gesamtWeg = gesamtWeg + alpha - alphaBefore;
 }
 
@@ -112,6 +118,7 @@ void AutosO::Kreisbewegung(Direction spawn)
 
 void AutosO::moveOutKV(Direction direction, float weg)
 {
+    std::cout << "OutKV" << std::endl;
     switch (direction)
     {
     case Direction::EAST: this->sprite.move(weg, 0.f); break;

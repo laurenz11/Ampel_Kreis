@@ -58,6 +58,7 @@ public:
 	void bremsungInKV();
 	void beschleunigeInKV();
 	void beschleunige();
+	void beschleunigeOutKv();
 	void bremsung();
 	float rechnungszeit();
 

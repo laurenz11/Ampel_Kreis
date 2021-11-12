@@ -34,7 +34,7 @@ void SimulationKreis::moveAutosInKV()
 		else
 		{
 			autosOOutKv.push_back(autosOInKV[i]);
-			//autosOInKV.erase(autosOInKV.begin() + i);
+			autosOInKV.erase(autosOInKV.begin() + i);
 			std::cout << autosOOutKv.size() << std::endl;
 		}
 	}
@@ -52,7 +52,7 @@ void SimulationKreis::moveAutosbeforeKV()
 		else
 		{
 			autosOInKV.push_back(autosO[i]);
-			//autosO.erase(autosO.begin() + i);
+			autosO.erase(autosO.begin() + i); 
 		}
 	}
 }
@@ -61,8 +61,7 @@ void SimulationKreis::moveAutosOutKV()
 {
 	for (int i = 0; i < autosOOutKv.size(); i++)
 	{
-		autosOOutKv[i]->internalTimer.restart();
-		autosOOutKv[i]->beschleunige();
+		autosOOutKv[i]->beschleunigeOutKv();
 		autosOOutKv[i]->moveOutKV(autosOOutKv[i]->originalDirection, autosOOutKv[i]->weg);
 	}
 }
@@ -116,6 +115,14 @@ void SimulationKreis::spawnAutos()
 void SimulationKreis::renderAutosO(sf::RenderTarget& target)
 {
 	for (auto* x: this->autosO)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOInKV)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOOutKv)
 	{
 		x->render(target);
 	}
