@@ -15,7 +15,10 @@ public:
 
 	void run();
 
-	std::vector <AutosO*> autosO;
+	std::vector <AutosO*> autosO;//Vektor für Autos, die vor dem Kreisverkehr sind
+	std::vector <AutosO*> autosOInKV;
+	std::vector <AutosO*> autosOOutKv;
+
 
 	void spawnAutosNord();
 	void spawnAutosWest();
@@ -24,7 +27,13 @@ public:
 
 	void spawnAutos();
 
+	void moveAutosInKV();
+	void moveAutosbeforeKV();
+	void moveAutosOutKV();
 	void moveAutos();
+
+	void checkDestination();
+
 
 	void renderAutosO(sf::RenderTarget& target);
 
@@ -32,6 +41,15 @@ public:
 	int rndValueDirection;
 	int rndValueType;
 
+	int endCounterNorthKV;
+	int endCounterEastKV;
+	int endCounterSouthKV;
+	int endCounterWestKV;
+
+	int startCounterNorthKV;
+	int startCounterEastKV;
+	int startCounterSouthKV;
+	int startCounterWestKV;
 	
 };
 

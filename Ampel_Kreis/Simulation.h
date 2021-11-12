@@ -74,13 +74,4 @@ public:
 	int startCounterWest;
 
 	//Counter für den Kreisverkehr
-	int endCounterNorthKV;
-	int endCounterEastKV;
-	int endCounterSouthKV;
-	int endCounterWestKV;
-
-	int startCounterNorthKV;
-	int startCounterEastKV;
-	int startCounterSouthKV;
-	int startCounterWestKV;
 };

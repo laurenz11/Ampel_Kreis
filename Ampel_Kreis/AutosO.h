@@ -4,6 +4,7 @@
 #include<iostream>
 #include "CarProp.h"
 #include <math.h>
+# define M_PI 3.14159265358979323846
 using namespace std;
 class AutosO
 {
@@ -30,9 +31,13 @@ public:
 	float bremsbeschleunigung;
 	float geschwindigkeit;
 	float anfangsgeschwindigkeit;
+	float radius;
 	sf::Clock internalTimer;
 	Direction currentDirection;
 	Direction originalDirection;
+	Direction spawn;
+	bool leave;
+
 
 	int stopNS();
 	//bool const stopWO;
@@ -41,15 +46,25 @@ public:
 	const Direction getOriginalDir() const;
 	const Direction getCurrentDir() const;
 
-	float theta;
-	float newPositiony;
-	float newPositionx;      
-	void Kreisbewegung();
-	void bremsung();
+	//für  die Berechnung des Fahrtweges
+	float alpha;
+	float x;
+	float y;
+	float gesamtWeg;
+	float alphaBefore;
+
+
+	void Kreisbewegung(Direction spawn);
+	void bremsungInKV();
+	void beschleunigeInKV();
 	void beschleunige();
+	void bremsung();
 	float rechnungszeit();
 
-
+	void checkDestination();
+	void moveBeforeKV(Direction direction, float weg);
+	void moveInKV();
+	void moveOutKV(Direction direction, float weg);
 	void update();
 	void render(sf::RenderTarget& target);
 

@@ -119,6 +119,7 @@ void Simulation::run()
 
 		if (startIsAllowed) {
 			this->updateAfterStart();
+			this->simulationKreisverkehr->run();
 			if (clock.getElapsedTime().asSeconds() >= this->gui->getTimeFromEditBox()) {
 				startIsAllowed = false;
 			}
@@ -165,6 +166,7 @@ void Simulation::updateAuto()
 	if (rndAnfahrt < 15) {
 		if (Functions::checkSpawnNorth(autos) == 0) {
 			spawn = Direction::NORTH;
+			startCounterNorth++;
 			//std::cout << "spawn auf nord" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
@@ -172,6 +174,7 @@ void Simulation::updateAuto()
 	else if (rndAnfahrt < 36) {
 		if (Functions::checkSpawnEast(autos) == 0) {
 			spawn = Direction::EAST;
+			startCounterEast++;
 			//std::cout << "spawn auf ost" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
@@ -179,6 +182,7 @@ void Simulation::updateAuto()
 	else if (rndAnfahrt < 50) {
 		if (Functions::checkSpawnEast(autos) == 0) {
 			spawn = Direction::EAST_W;
+			startCounterEast++;
 			//std::cout << "spawn auf ost" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
@@ -186,6 +190,7 @@ void Simulation::updateAuto()
 	else if (rndAnfahrt < 65) {
 		if (Functions::checkSpawnSouth(autos) == 0) {
 			spawn = Direction::SOUTH;
+			startCounterSouth++;
 			//std::cout << "spawn auf sued" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
@@ -193,6 +198,7 @@ void Simulation::updateAuto()
 	else if (rndAnfahrt < 79) {
 		if (Functions::checkSpawnWest(autos) == 0) {
 			spawn = Direction::WEST_E;
+			startCounterWest++;
 			//std::cout << "spawn auf west" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
@@ -200,6 +206,7 @@ void Simulation::updateAuto()
 	else {
 		if (Functions::checkSpawnWest(autos) == 0) {
 			spawn = Direction::WEST;
+			startCounterWest++;
 			//std::cout << "spawn auf west" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
@@ -289,8 +296,9 @@ void Simulation::updateAfterStart(){
 		this->simulationKreisverkehr->spawnAutos();
 	}
 
+
 	this->gui->updateCounterOutcome(endCounterNorth, endCounterEast, endCounterSouth, endCounterWest, startCounterNorth, startCounterEast, startCounterSouth, startCounterWest);
-	this->gui->updateCounterOutcomeKV(endCounterNorthKV, endCounterEastKV, endCounterSouthKV, endCounterWestKV, startCounterNorthKV, startCounterEastKV, startCounterSouthKV, startCounterWestKV);
+	this->gui->updateCounterOutcomeKV(simulationKreisverkehr->endCounterNorthKV, simulationKreisverkehr->endCounterEastKV, simulationKreisverkehr->endCounterSouthKV, simulationKreisverkehr->endCounterWestKV, simulationKreisverkehr->startCounterNorthKV, simulationKreisverkehr->startCounterEastKV, simulationKreisverkehr->startCounterSouthKV, simulationKreisverkehr->startCounterWestKV);
 }
 
 void Simulation::render() {

@@ -33,31 +33,6 @@ void AutosO::initFahrtweg(Direction spawn, Direction direction) {
     }
 }
 
-void AutosO::beschleunige()
-{
-    geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
-    weg = 0.5 * beschleunigung * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
-}
-
-float AutosO::rechnungszeit()
-{
-    return this->internalTimer.getElapsedTime().asSeconds();
-}
-
-void AutosO::Kreisbewegung()
-{
-    theta = atan2(sprite.getPosition().y , sprite.getPosition().x);
-    newPositionx = cos(theta);
-    newPositiony = sin(theta);
-
-}
-
-void AutosO::bremsung()
-{
-    geschwindigkeit = bremsbeschleunigung * rechnungszeit();
-    weg = 0.5 * bremsbeschleunigung * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
-}
-
 AutosO::AutosO(Direction spawn, Color color, Direction direction, float ReactionTime)
 {
     this->beschleunigung = 1;
@@ -65,9 +40,12 @@ AutosO::AutosO(Direction spawn, Color color, Direction direction, float Reaction
     this->reactionTime = ReactionTime;
     this->internalTimer.restart();
     this->anfangsgeschwindigkeit = 0;
+    this->radius = 250.f;
     this->initFahrtweg(spawn, direction);
+    leave = false;
 
     this->originalDirection = direction;
+    this->spawn = spawn;
     switch (spawn) {
     case Direction::WEST: this->sprite.setPosition(20.f, 550.f); direction = Direction::EAST; break;
     case Direction::NORTH: this->sprite.setPosition(450.f, 30.f); direction = Direction::SOUTH; break;
@@ -85,8 +63,108 @@ AutosO::AutosO(Direction spawn, Color color, Direction direction, float Reaction
     case Direction::WEST: this->sprite.setRotation(270.f); break;
     }
     std::cout << "Konstruktor aufgerufen" << std::endl;
-    
+
 }
+
+void AutosO::beschleunige()
+{
+    geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
+    weg = 0.5 * (beschleunigung)*pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
+}
+
+void AutosO::beschleunigeInKV()
+{
+    alphaBefore = alpha;
+    geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
+    alpha = 0.5 * (beschleunigung/(radius*0.1)) * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
+    std::cout << alpha << std::endl;
+    gesamtWeg = gesamtWeg + alpha - alphaBefore;
+}
+
+void AutosO::bremsungInKV()
+{
+    geschwindigkeit = bremsbeschleunigung * rechnungszeit();
+    alpha = 0.5 * (bremsbeschleunigung) * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
+
+}
+
+void AutosO::bremsung()
+{
+
+}
+
+float AutosO::rechnungszeit()
+{
+    return this->internalTimer.getElapsedTime().asSeconds();
+}
+
+void AutosO::Kreisbewegung(Direction spawn)
+{
+    switch (spawn)
+    {
+    case Direction::NORTH: x = 500 + cos(alpha+0.5*M_PI) * radius; y = 500 - sin(alpha+0.5*M_PI) * radius; break;
+    case Direction::SOUTH: x = 500 + cos(alpha+ 1.5*M_PI) * radius; y = 500 - sin(alpha+ 1.5*M_PI) * radius; break;
+    case Direction::EAST:  x = 500 + cos(alpha) * radius; y = 500 - sin(alpha) * radius; break;
+    case Direction::WEST: x = 500 + cos(alpha+M_PI) * radius; y = 500 - sin(alpha+M_PI) * radius; break;
+    }
+}
+
+
+void AutosO::moveOutKV(Direction direction, float weg)
+{
+    switch (direction)
+    {
+    case Direction::EAST: this->sprite.move(weg, 0.f); break;
+    case Direction::WEST: this->sprite.move(-weg, 0.f); break;
+    case Direction::SOUTH:this->sprite.move(0.f, weg); break;
+    case Direction::NORTH: this->sprite.move(0.f, -weg); break;
+    }
+
+}
+
+void AutosO::moveBeforeKV(Direction direction, float weg)
+{
+    switch (direction)
+    {
+    case Direction::EAST: this->sprite.move(-weg, 0.f); break;
+    case Direction::WEST: this->sprite.move(weg, 0.f); break;
+    case Direction::SOUTH:this->sprite.move(0.f, -weg); break;
+    case Direction::NORTH: this->sprite.move(0.f, weg); break;
+    }
+}
+
+void AutosO::moveInKV()
+{
+    this->sprite.setPosition(x, y);
+}
+
+
+
+void AutosO::checkDestination()
+{
+    if (spawn == Direction::WEST && originalDirection == Direction::NORTH || spawn == Direction::SOUTH && originalDirection == Direction::EAST || spawn == Direction::EAST && originalDirection == Direction::NORTH || spawn == Direction::NORTH && originalDirection == Direction::WEST)
+    {
+        if (alpha >= 0.5 * M_PI)
+        {
+            leave = true;
+        }
+    }
+    else if (spawn == Direction::WEST && originalDirection == Direction::EAST || spawn == Direction::SOUTH && originalDirection == Direction::NORTH || spawn == Direction::EAST && originalDirection == Direction::WEST || spawn == Direction::NORTH && originalDirection == Direction::SOUTH)
+    {
+        if (alpha >= 1 * 3.142)
+        {
+            leave = true;
+        }
+    }
+    else if (spawn >= Direction::WEST && originalDirection == Direction::NORTH || spawn == Direction::SOUTH && originalDirection == Direction::WEST || spawn == Direction::EAST && originalDirection == Direction::SOUTH || spawn == Direction::NORTH && originalDirection == Direction::EAST)
+    {
+        if (alpha >= 1.5 * 3.142)
+        {
+            leave = true;
+        }
+    }
+}
+
 
 
 
