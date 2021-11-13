@@ -37,6 +37,7 @@ public:
 	Direction originalDirection;
 	Direction spawn;
 	bool leave;
+	bool change;
 
 
 	int stopNS();
@@ -63,6 +64,11 @@ public:
 	float rechnungszeit();
 
 	void checkDestination();
+	void checkChangeEast();
+	void checkChangeWest();
+	void checkChangeNorth();
+	void checkChangeSouth();
+	void RotateAuto(Direction direction);
 	void moveBeforeKV(Direction direction, float weg);
 	void moveInKV();
 	void moveOutKV(Direction direction, float weg);

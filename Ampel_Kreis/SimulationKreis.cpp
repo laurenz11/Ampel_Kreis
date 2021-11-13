@@ -17,42 +17,175 @@ void SimulationKreis::run()
 	this->moveAutos();
 }
 
-void SimulationKreis::moveAutosInKV()
+void SimulationKreis::moveAutosInKVEast()
 {
-	
-	for (int i = 0; i < autosOInKV.size(); i++)
-	{
-		autosOInKV[i]->checkDestination();
-
-		if (autosOInKV[i]->leave == false)
+	if (!autosOInKVEast.empty()) {
+		for (int i = 0; i < autosOInKVEast.size(); i++)
 		{
-			autosOInKV[i]->beschleunigeInKV();
-			autosOInKV[i]->Kreisbewegung(autosOInKV[i]->spawn);
-			autosOInKV[i]->moveInKV();
-		}
+			autosOInKVEast[i]->checkDestination();
+			autosOInKVEast[i]->checkChangeEast(); 
+			std::cout << autosOInKVEast[i]->leave << std::endl;
+			std::cout << autosOInKVEast[i]->change << std::endl;
 
-		else
-		{
-			autosOOutKv.push_back(autosOInKV[i]);
-			autosOInKV.erase(autosOInKV.begin() + i);
-			std::cout << autosOOutKv.size() << std::endl;
+
+			if (autosOInKVEast[i]->leave == false && autosOInKVEast[i]->change == false)
+			{
+				autosOInKVEast[i]->beschleunigeInKV();
+				autosOInKVEast[i]->Kreisbewegung(autosOInKVEast[i]->spawn);
+				autosOInKVEast[i]->moveInKV();
+				
+			}
+
+			else if (autosOInKVEast[i]->change == true && autosOInKVEast[i]->leave == false)
+			{
+				autosOInKVNorth.push_back(autosOInKVEast[i]);
+				autosOInKVEast.erase(autosOInKVEast.begin() + i);
+
+			}
+			else if (autosOInKVEast[i]->leave == true)
+			{
+				autosOOutKv.push_back(autosOInKVEast[i]);
+				autosOInKVEast.erase(autosOInKVEast.begin() + i);
+				std::cout << autosOOutKv.size() << std::endl;
+			}
 		}
 	}
+}
+
+
+void SimulationKreis::moveAutosInKVWest()
+{
+	if (!autosOInKVWest.empty()) {
+		for (int i = 0; i < autosOInKVWest.size(); i++)
+		{
+			autosOInKVWest[i]->checkDestination();
+			autosOInKVWest[i]->checkChangeWest();
+
+			if (autosOInKVWest[i]->leave == false && autosOInKVWest[i]->change == false)
+			{
+				autosOInKVWest[i]->beschleunigeInKV();
+				autosOInKVWest[i]->Kreisbewegung(autosOInKVWest[i]->spawn);
+				autosOInKVWest[i]->moveInKV();
+			}
+
+			else if (autosOInKVWest[i]->change == true && autosOInKVWest[i]->leave == false)
+			{
+				autosOInKVSouth.push_back(autosOInKVWest[i]);
+				autosOInKVWest.erase(autosOInKVWest.begin() + i);
+			}
+			else if (autosOInKVWest[i]->leave == true)
+			{
+				autosOOutKv.push_back(autosOInKVWest[i]);
+				autosOInKVWest.erase(autosOInKVWest.begin() + i);
+				std::cout << autosOOutKv.size() << std::endl;
+			}
+		}
+	}
+}
+
+void SimulationKreis::moveAutosInKVNorth()
+{
+	if (autosOInKVNorth.empty()) {
+		for (int i = 0; i < autosOInKVNorth.size(); i++)
+		{
+			autosOInKVNorth[i]->checkDestination();
+			autosOInKVNorth[i]->checkChangeNorth();
+
+			if (autosOInKVNorth[i]->leave == false && autosOInKVNorth[i]->change == false)
+			{
+				autosOInKVNorth[i]->beschleunigeInKV();
+				autosOInKVNorth[i]->Kreisbewegung(autosOInKVNorth[i]->spawn);
+				autosOInKVNorth[i]->moveInKV();
+			}
+
+			else if (autosOInKVNorth[i]->change == true && autosOInKVNorth[i]->leave == false)
+			{
+				autosOInKVWest.push_back(autosOInKVNorth[i]);
+				autosOInKVNorth.erase(autosOInKVNorth.begin() + i);
+			}
+			else if (autosOInKVNorth[i]->leave == true)
+			{
+				autosOOutKv.push_back(autosOInKVNorth[i]);
+				autosOInKVNorth.erase(autosOInKVNorth.begin() + i);
+				std::cout << autosOOutKv.size() << std::endl;
+			}
+		}
+	}
+}
+
+void SimulationKreis::moveAutosInKVSouth()
+{
+	if (!autosOInKVSouth.empty())
+	{
+		for (int i = 0; i < autosOInKVSouth.size(); i++)
+		{
+			autosOInKVSouth[i]->checkDestination();
+			autosOInKVSouth[i]->checkChangeSouth();
+
+			if (autosOInKVSouth[i]->leave == false && autosOInKVSouth[i]->change == false)
+			{
+				autosOInKVSouth[i]->beschleunigeInKV();
+				autosOInKVSouth[i]->Kreisbewegung(autosOInKVSouth[i]->spawn);
+				autosOInKVSouth[i]->moveInKV();
+			
+			}
+
+			else if (autosOInKVSouth[i]->change == true && autosOInKVSouth[i]->leave == false)
+			{
+				autosOInKVEast.push_back(autosOInKVSouth[i]);
+				autosOInKVSouth.erase(autosOInKVSouth.begin() + i);
+			}
+			else if (autosOInKVSouth[i]->leave == true)
+			{
+				autosOOutKv.push_back(autosOInKVSouth[i]);
+				autosOInKVSouth.erase(autosOInKVSouth.begin() + i);
+				std::cout << autosOOutKv.size() << std::endl;
+			}
+		}
+	}
+}
+
+void SimulationKreis::moveAutosInKV()
+{
+	moveAutosInKVSouth();
+	moveAutosInKVEast();
+	moveAutosInKVWest();
+	moveAutosInKVNorth();
+	
 }
 
 void SimulationKreis::moveAutosbeforeKV()
 {
 	for (int i = 0 ; i < autosO.size(); i++)
 	{
-		if (pow(autosO[i]->getPos().x - 500, 2) + pow(autosO[i]->getPos().y - 500, 2) > pow(autosO[i]->radius, 2))
+		if (pow(autosO[i]->getPos().x - 500, 2) + pow(autosO[i]->getPos().y - 500, 2) > pow(300, 2))
 		{
 			autosO[i]->beschleunige();
 			autosO[i]->moveBeforeKV(autosO[i]->spawn, autosO[i]->weg);
 		}
+		else if( autosOInKVEast.size() <= 2 && autosOInKVSouth.empty() && autosO[i]->spawn == Direction::EAST)
+		{
+			autosOInKVEast.push_back(autosO[i]); std::cout <<"AutosEast: " << autosOInKVEast.size() << std::endl;
+			autosO.erase(autosO.begin() + i); 
+		}
+		else if (autosOInKVNorth.size() <= 2 && autosOInKVEast.empty() && autosO[i]->spawn == Direction::NORTH)
+		{
+			autosOInKVNorth.push_back(autosO[i]); std::cout <<"AutosNorth: " << autosOInKVNorth.size() << std::endl;
+			autosO.erase(autosO.begin() + i);
+		}
+		else if (autosOInKVWest.size() <= 2 && autosOInKVNorth.empty() && autosO[i]->spawn == Direction::WEST)
+		{
+			autosOInKVWest.push_back(autosO[i]); std::cout <<"AutosWest: " << autosOInKVWest.size() << std::endl;
+			autosO.erase(autosO.begin() + i);
+		}
+		else if (autosOInKVSouth.size() <= 2 && autosOInKVWest.empty() && autosO[i]->spawn == Direction::SOUTH)
+		{
+			autosOInKVSouth.push_back(autosO[i]); std::cout << "AutosSouth:  " << autosOInKVSouth.size() << std::endl;
+			autosO.erase(autosO.begin() + i); 
+		}
 		else
 		{
-			autosOInKV.push_back(autosO[i]);
-			autosO.erase(autosO.begin() + i); 
+			autosO[i]->moveBeforeKV(autosO[i]->spawn, 0);
 		}
 	}
 }
@@ -61,6 +194,7 @@ void SimulationKreis::moveAutosOutKV()
 {
 	for (int i = 0; i < autosOOutKv.size(); i++)
 	{
+		autosOOutKv[i]->RotateAuto(autosOOutKv[i]->originalDirection);
 		autosOOutKv[i]->beschleunigeOutKv();
 		autosOOutKv[i]->moveOutKV(autosOOutKv[i]->originalDirection, autosOOutKv[i]->weg);
 	}
@@ -118,7 +252,19 @@ void SimulationKreis::renderAutosO(sf::RenderTarget& target)
 	{
 		x->render(target);
 	}
-	for (auto* x : this->autosOInKV)
+	for (auto* x : this->autosOInKVEast)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOInKVWest)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOInKVNorth)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOInKVSouth)
 	{
 		x->render(target);
 	}

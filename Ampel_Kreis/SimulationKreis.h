@@ -16,7 +16,10 @@ public:
 	void run();
 
 	std::vector <AutosO*> autosO;//Vektor für Autos, die vor dem Kreisverkehr sind
-	std::vector <AutosO*> autosOInKV;
+	std::vector <AutosO*> autosOInKVEast;
+	std::vector <AutosO*> autosOInKVNorth;
+	std::vector <AutosO*> autosOInKVWest;
+	std::vector <AutosO*> autosOInKVSouth;
 	std::vector <AutosO*> autosOOutKv;
 
 
@@ -27,6 +30,10 @@ public:
 
 	void spawnAutos();
 
+	void moveAutosInKVEast();
+	void moveAutosInKVWest();
+	void moveAutosInKVNorth();
+	void moveAutosInKVSouth();
 	void moveAutosInKV();
 	void moveAutosbeforeKV();
 	void moveAutosOutKV();
