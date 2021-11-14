@@ -38,13 +38,6 @@ void Simulation::initKreisverkehr()
 	this->Kreisverkehr.setScale(2, 2);
 }
 
-void Simulation::initWahrscheinlichkeiten()
-{
-	WkFahrer1 = StringConverter::toInt(this->gui->WkFahrer1->getText());
-	WkFahrer2 = StringConverter::toInt(this->gui->WkFahrer2->getText());
-	WkFahrer3 = StringConverter::toInt(this->gui->WkFahrer3->getText());
-}
-
 void Simulation::renderWorld()
 {
 	this->window->draw(this->Kreuzverkehr);
@@ -81,6 +74,13 @@ void Simulation::initCounter()
 	startCounterSouth = 0;
 }
 
+void Simulation::initWahrscheinlichkeiten()
+{
+	WkFahrer1 = StringConverter::toInt(this->gui->WkFahrer1->getText());
+	WkFahrer2 = StringConverter::toInt(this->gui->WkFahrer2->getText());
+	WkFahrer3 = StringConverter::toInt(this->gui->WkFahrer3->getText());
+}
+
 void Simulation::backToGUI() {
 	this->gui->takeElapsedTime(clock.getElapsedTime().asSeconds(), clock.getElapsedTime().asMilliseconds());
 }
@@ -109,7 +109,7 @@ Simulation::~Simulation()
 	}
 
 	delete this->window2;
-	
+
 
 	delete this->ampel;
 }
@@ -180,14 +180,14 @@ void Simulation::updateAuto()
 		}
 		else { spawn = Direction::NOWHERE; }
 	}
-	else if (rndAnfahrt < 36) {
+	else if (rndAnfahrt < 18.5) {
 		if (Functions::checkSpawnEast(autos) == 0) {
 			spawn = Direction::EAST;
 			startCounterEast++;
 			//std::cout << "spawn auf ost" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
-	}
+	}//wk dass auto von osten nach norden oder süden fährt = 31.5%
 	else if (rndAnfahrt < 50) {
 		if (Functions::checkSpawnEast(autos) == 0) {
 			spawn = Direction::EAST_W;
@@ -203,8 +203,8 @@ void Simulation::updateAuto()
 			//std::cout << "spawn auf sued" << std::endl;
 		}
 		else { spawn = Direction::NOWHERE; }
-	}
-	else if (rndAnfahrt < 79) {
+	}//wahrscheinlichkeit, dass der wagen von westen nach osten || nach süden fährt = 31.5%
+	else if (rndAnfahrt < 96.5) {
 		if (Functions::checkSpawnWest(autos) == 0) {
 			spawn = Direction::WEST_E;
 			startCounterWest++;
@@ -235,13 +235,14 @@ void Simulation::updateAuto()
 			//std::cout << "pushed back" << std::endl;
 		}
 		//Blaues Auto generieren
-		if (rndValue >= WkFahrer1 + WkFahrer3) // blaues Auto 10 %
+		if (rndValue >= WkFahrer1 + WkFahrer2) // blaues Auto 10 %
 		{
 			this->autos.push_back(new Autos(spawn, Color::BLUE, Direction::EAST));
 			//std::cout << "pushed back" << std::endl;
 		}
 	}
-	
+
+
 }
 
 
@@ -260,16 +261,16 @@ void Simulation::update()
 			this->window->close();
 			this->window2->close();
 		}
-		
+
 		this->gui->checkStartButton(startIsAllowed, clock);
-		
+
 		this->gui->ClickedOnClose(window, e);
-		
+
 		this->gui->checkStopButton(startIsAllowed);
 
-		
 
-	
+
+
 		this->gui->handleEvent(e);
 	}
 
@@ -278,19 +279,20 @@ void Simulation::update()
 
 
 	//std::cout << clock.getElapsedTime().asSeconds() << std::endl;
-	
+
 }
 
 
-void Simulation::updateAfterStart(){
+void Simulation::updateAfterStart() {
 	for (auto* car : this->autos)
 	{
-		car->update();
+		car->update(ampel->ampel_n_green, ampel->ampel_s_green, ampel->ampel_o_green, ampel->ampel_w_green);
+
 		//std::cout << "Auto moved" << std::endl;
 	}
 
 
-	
+
 	this->deleteAutos();
 
 	this->backToGUI();
@@ -305,7 +307,6 @@ void Simulation::updateAfterStart(){
 		this->simulationKreisverkehr->spawnAutos();
 	}
 
-
 	this->gui->updateCounterOutcome(endCounterNorth, endCounterEast, endCounterSouth, endCounterWest, startCounterNorth, startCounterEast, startCounterSouth, startCounterWest);
 	this->gui->updateCounterOutcomeKV(simulationKreisverkehr->endCounterNorthKV, simulationKreisverkehr->endCounterEastKV, simulationKreisverkehr->endCounterSouthKV, simulationKreisverkehr->endCounterWestKV, simulationKreisverkehr->startCounterNorthKV, simulationKreisverkehr->startCounterEastKV, simulationKreisverkehr->startCounterSouthKV, simulationKreisverkehr->startCounterWestKV);
 }
@@ -314,9 +315,9 @@ void Simulation::render() {
 
 	this->window->clear(sf::Color(200, 200, 200));
 	this->window2->clear();
-	
+
 	this->gui->render(this->window);
-	
+
 	this->renderWorld();
 	this->simulationKreisverkehr->renderAutosO(*this->window2);
 

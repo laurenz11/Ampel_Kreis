@@ -1,4 +1,5 @@
 #include "SimulationKreis.h"
+#include "SimulationKreis.h"
 
 void SimulationKreis::initWahrscheinlichkeiten(int WKFahrer1, int WKFahrer2, int WKFahrer3)
 {
@@ -117,12 +118,12 @@ void SimulationKreis::spawnAutos()
 		else
 			break;
 	}
-	
+
 }
 
 void SimulationKreis::renderAutosO(sf::RenderTarget& target)
 {
-	for (auto* x: this->autosO)
+	for (auto* x : this->autosO)
 	{
 		x->render(target);
 	}
@@ -148,7 +149,7 @@ void SimulationKreis::spawnAutosNord()//spawn im Norden
 	{
 		if (rndValueType <= WkFahrer1)
 		{
-			this->autosO.push_back(new AutosO(Direction::NORTH, Color::RED , Direction::EAST, 0.75));
+			this->autosO.push_back(new AutosO(Direction::NORTH, Color::RED, Direction::EAST, 0.75));
 		}
 		else if (rndValueType > WkFahrer1 && rndValueType <= WkFahrer1 + WkFahrer2)
 		{
@@ -158,7 +159,7 @@ void SimulationKreis::spawnAutosNord()//spawn im Norden
 		{
 			this->autosO.push_back(new AutosO(Direction::NORTH, Color::BLUE, Direction::EAST, 2.f));
 		}
-		
+
 	}
 	else if (rndValueDirection >= 50 && rndValueDirection < 60)//Fahr nach Sueden
 	{
@@ -174,7 +175,7 @@ void SimulationKreis::spawnAutosNord()//spawn im Norden
 		{
 			this->autosO.push_back(new AutosO(Direction::NORTH, Color::BLUE, Direction::SOUTH, 2.f));
 		}
-		
+
 	}
 	else //Fahr nach Westen
 	{
@@ -215,7 +216,7 @@ void SimulationKreis::spawnAutosWest()
 	{
 		if (rndValueType <= WkFahrer1)
 		{
-			this->autosO.push_back(new AutosO(Direction::WEST, Color::RED , Direction::EAST, 0.75));
+			this->autosO.push_back(new AutosO(Direction::WEST, Color::RED, Direction::EAST, 0.75));
 		}
 		else if (rndValueType > WkFahrer1 && rndValueType <= WkFahrer1 + WkFahrer2)
 		{
@@ -389,4 +390,3 @@ void SimulationKreis::deleteAutosO()
 
 	}
 }
-

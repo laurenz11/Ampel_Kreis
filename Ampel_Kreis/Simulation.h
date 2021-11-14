@@ -14,7 +14,7 @@ private:
 	sf::RenderWindow* window2;
 
 
-	
+	GUI* gui;
 	sf::Clock clock;
 
 	SimulationKreis* simulationKreisverkehr;
@@ -51,15 +51,13 @@ public:
 	bool startTimer;
 	Simulation();
 	virtual ~Simulation();
-	
-	
 
 	//funktionen
 	void run();
 	void updateAuto();
 	void updateAfterStart();
 	void deleteAutos();
-	void deleteAutosO();
+
 	void update();
 	void render();
 
@@ -68,10 +66,7 @@ public:
 	int WkFahrer2;
 	int WkFahrer3;
 
-
-	GUI* gui;
 	void backToGUI(); //ermöglich es Zeit, Anzahl Fahrzeuge an das GUI zu übergeben und zu rendern
-
 
 	int endCounterNorth;
 	int endCounterEast;
@@ -84,4 +79,13 @@ public:
 	int startCounterWest;
 
 	//Counter für den Kreisverkehr
+	int endCounterNorthKV;
+	int endCounterEastKV;
+	int endCounterSouthKV;
+	int endCounterWestKV;
+
+	int startCounterNorthKV;
+	int startCounterEastKV;
+	int startCounterSouthKV;
+	int startCounterWestKV;
 };

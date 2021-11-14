@@ -76,14 +76,14 @@ void AutosO::beschleunige()
 void AutosO::beschleunigeOutKv()
 {
     geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
-    weg = 0.5 * (beschleunigung)*2 + anfangsgeschwindigkeit * rechnungszeit();
+    weg = 0.5 * (beschleunigung) * 2 + anfangsgeschwindigkeit * rechnungszeit();
 }
 
 void AutosO::beschleunigeInKV()
 {
     alphaBefore = alpha;
     geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
-    alpha = 0.5 * (beschleunigung/(radius*0.04)) * pow(rechnungszeit() - 1.5 , 2) + anfangsgeschwindigkeit * rechnungszeit();
+    alpha = 0.5 * (beschleunigung / (radius * 0.04)) * pow(rechnungszeit() - 1.5, 2) + anfangsgeschwindigkeit * rechnungszeit();
     //std::cout << alpha << std::endl;
     gesamtWeg = gesamtWeg + alpha - alphaBefore;
 }
@@ -91,7 +91,7 @@ void AutosO::beschleunigeInKV()
 void AutosO::bremsungInKV()
 {
     geschwindigkeit = bremsbeschleunigung * rechnungszeit();
-    alpha = 0.5 * (bremsbeschleunigung) * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
+    alpha = 0.5 * (bremsbeschleunigung)*pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
 
 }
 
@@ -109,10 +109,10 @@ void AutosO::Kreisbewegung(Direction spawn)
 {
     switch (spawn)
     {
-    case Direction::NORTH: x = 500 + cos(alpha+0.5*3.142) * radius; y = 500 - sin(alpha+0.5*3.142) * radius; break;
-    case Direction::SOUTH: x = 500 + cos(alpha+ 1.5*3.142) * radius; y = 500 - sin(alpha+ 1.5*3.142) * radius; break;
+    case Direction::NORTH: x = 500 + cos(alpha + 0.5 * 3.142) * radius; y = 500 - sin(alpha + 0.5 * 3.142) * radius; break;
+    case Direction::SOUTH: x = 500 + cos(alpha + 1.5 * 3.142) * radius; y = 500 - sin(alpha + 1.5 * 3.142) * radius; break;
     case Direction::EAST:  x = 500 + cos(alpha) * radius; y = 500 - sin(alpha) * radius; break;
-    case Direction::WEST: x = 500 + cos(alpha+3.142) * radius; y = 500 - sin(alpha+3.142) * radius; break;
+    case Direction::WEST: x = 500 + cos(alpha + 3.142) * radius; y = 500 - sin(alpha + 3.142) * radius; break;
     }
 }
 
@@ -175,12 +175,12 @@ void AutosO::checkDestination()
 
 void AutosO::checkChangeEast()
 {
-   
-   if (this->sprite.getPosition().x <= 500) { change = true; }
+
+    if (this->sprite.getPosition().x <= 500) { change = true; }
     //case Direction::WEST: if (this->sprite.getPosition().x >= 450) { change = true; } break;
     //case Direction::SOUTH: if (this->sprite.getPosition().x >= 450) { change = true; } break;
     //case Direction::NORTH: if (this->sprite.getPosition().x >= 450) { change = true; } break;
- 
+
 }
 
 void AutosO::checkChangeWest()
@@ -188,21 +188,21 @@ void AutosO::checkChangeWest()
     switch (spawn)
     {
         if (this->sprite.getPosition().x >= 500) { change = true; }
-    //case Direction::WEST: if (alpha >= 0.5 * 3.142) { change = true; } break; 
-    //case Direction::SOUTH: if (alpha >= 2 * 3.142) { change = true; } break; 
-    //case Direction::NORTH: if (alpha >= 1 * 3.142) { change = true; } break; 
+        //case Direction::WEST: if (alpha >= 0.5 * 3.142) { change = true; } break; 
+        //case Direction::SOUTH: if (alpha >= 2 * 3.142) { change = true; } break; 
+        //case Direction::NORTH: if (alpha >= 1 * 3.142) { change = true; } break; 
     }
 }
 
 void AutosO::checkChangeNorth()
 {
 
-    if (this->sprite.getPosition().y >= 500 ) { change = true; }
+    if (this->sprite.getPosition().y >= 500) { change = true; }
     /*switch (spawn)
-    {case Direction::EAST: if (alpha >= 1 * 3.142) { change = true; } break; 
-    case Direction::WEST: if (alpha >= 2 * 3.142) { change = true; } break; 
+    {case Direction::EAST: if (alpha >= 1 * 3.142) { change = true; } break;
+    case Direction::WEST: if (alpha >= 2 * 3.142) { change = true; } break;
     case Direction::SOUTH: if (alpha >= 1.5 * 3.142) { change = true; } break;
-    case Direction::NORTH: if (alpha >= 0.5 * 3.142) { change = true; } break; 
+    case Direction::NORTH: if (alpha >= 0.5 * 3.142) { change = true; } break;
     }*/
 }
 
@@ -211,10 +211,10 @@ void AutosO::checkChangeSouth()
     if (this->sprite.getPosition().y <= 500) { change = true; }
     /*switch (spawn)
     {
-    case Direction::EAST: if (alpha >= 2 * 3.142) { change = true; } break; 
-    case Direction::WEST: if (alpha >= 1 * 3.142) { change = true; } break; 
-    case Direction::SOUTH: if (alpha >= 0.5 * 3.142) { change = true; } break; 
-    case Direction::NORTH: if (alpha >= 1.5 * 3.142) { change = true; } break; 
+    case Direction::EAST: if (alpha >= 2 * 3.142) { change = true; } break;
+    case Direction::WEST: if (alpha >= 1 * 3.142) { change = true; } break;
+    case Direction::SOUTH: if (alpha >= 0.5 * 3.142) { change = true; } break;
+    case Direction::NORTH: if (alpha >= 1.5 * 3.142) { change = true; } break;
     }*/
 }
 
@@ -262,22 +262,18 @@ const Direction AutosO::getCurrentDir() const
 
 /*void AutosO::update()
 {
-
     switch (this->currentDirection)
     {
-
     case Direction::SOUTH: {
         this->beschleunigung();
         //this->bremsung();
         if (sprite.getPosition().y >= 420 && sprite.getPosition().y <= 560)
         {
-
             if (rndValue < 4)
             {
                 this->sprite.move(newPositionx, newPositiony);
                // this->sprite.move(0.f, -sqrt(2500 - speedp));//richtung westen
                 this->sprite.setRotation(-90.f);
-
             }
             else if (rndValue >= 4 && rndValue < 8)
             {
@@ -292,22 +288,16 @@ const Direction AutosO::getCurrentDir() const
             {
                 this->sprite.move(0.f, speedp);
             }
-
         }
-
         else this->sprite.move(0.f, speedp);
         break;
-
     }
-
     case Direction::EAST: {
         this->beschleunigung();
         if (sprite.getPosition().x >= 460 && sprite.getPosition().x <= 560)
         {
-
             if (rndValue < 8)
             {
-
                 if (sprite.getPosition().x >= 550)
                 {
                     this->sprite.move(0.f, speedm); //richtung Norden
@@ -328,12 +318,10 @@ const Direction AutosO::getCurrentDir() const
         else this->sprite.move(speedp, 0.f);
         break;
     }
-
     case Direction::WEST: {
         this->beschleunigung();
         if (sprite.getPosition().x <= 550 && sprite.getPosition().x >= 440)
         {
-
             if (rndValue < 9)
             {
                 this->sprite.move(0.f, speedm); //richtung Norden
@@ -360,7 +348,6 @@ const Direction AutosO::getCurrentDir() const
         this->beschleunigung();
         if (sprite.getPosition().y <= 550)
         {
-
             if (rndValue < 4)
             {
                 if (sprite.getPosition().y <= 450)
@@ -384,7 +371,6 @@ const Direction AutosO::getCurrentDir() const
         break;
     }
     }
-
 }*/
 
 void AutosO::render(sf::RenderTarget& target)

@@ -26,22 +26,32 @@ public:
 	virtual ~Autos();
 	Direction currentDirection;
 	Direction originalDirection;
+	Ampel* ampel;
+	//reaktionszeit
+	sf::Clock ReZeit;
+	sf::Time time1 = ReZeit.getElapsedTime();
+	void initClock();
+	bool reddrive;
+	bool bluedrive;
+	bool yellowdrive;
 
-	//bool const stopWO;
 	const sf::Vector2f getPos() const;
-	const bool checkIfInFront() const;
+	//const bool checkIfInFront() const;
 	const Direction getOriginalDir() const;
 	const Direction getCurrentDir() const;
 
-	float speedp = 0.005;
-	float speedm = -0.005;
+	float speedp = 0.0005;
+	float speedm = -0.0005;
 
 	void bremsung();
 	void beschleunigung();
+	void resetBeschleunigung();
 
-	void AntiCrash();
 
-	void update();
+
+	void AntiCrash(bool checkNord, bool checkSued, bool checkOst, bool checkWest);
+
+	void update(bool checkNord, bool checkSued, bool checkOst, bool checkWest);
 	void render(sf::RenderTarget& target);
 };
 #endif // AUTOS

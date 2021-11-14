@@ -13,7 +13,7 @@ class Ampel
 
 public:
 	Ampel();
-	
+
 
 
 	sf::Sprite spriteSued;
@@ -36,6 +36,12 @@ public:
 
 	void cycleAmpel();
 
+	bool ampel_n_green;
+	bool ampel_o_green;
+	bool ampel_s_green;
+	bool ampel_w_green;
+
+
 	//zeit funktion, clock zählt sekunden auf
 	sf::Clock timer;
 	bool cycle;
@@ -46,9 +52,8 @@ public:
 	bool Ampel_GreenOben_Unten();
 	bool Ampel_GreenRechts_Links();
 
-	
+
 	void render(sf::RenderTarget& target);
 
 };
-
 

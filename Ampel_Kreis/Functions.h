@@ -23,8 +23,11 @@ public:
         else {
             for (int i = 0; i < cars.size(); i++)
             {
-                //std::cout << "Schleife beginnt\n";
-                //std::cout << i << std::endl;
+                //for (int u = 0; u < cars.size(); u++)
+               // {
+                   // u = i + 1;
+                    //std::cout << "Schleife beginnt\n";
+                    //std::cout << i << std::endl;
                 switch (cars[i]->getCurrentDir()) {
 
                 case Direction::SOUTH:
@@ -32,6 +35,7 @@ public:
                         return blocked = 1;
                         //std::cout << "blocked" << std::endl;
                     }
+
 
                     else { blocked = 0; }
 
@@ -42,6 +46,7 @@ public:
                     break;
 
                 }
+
 
             }
             return blocked;
@@ -206,6 +211,16 @@ public:
                     else { blocked = 0; }
 
                     break;
+                case Direction::WEST_E:
+                    if (cars[i]->getPos().x > 850) {
+                        return blocked = 1;
+                        //  std::cout << "blocked" << std::endl;
+                    }
+
+                    else { blocked = 0; }
+
+                    break;
+
                     break;
 
                 default: blocked = 0;
@@ -248,6 +263,7 @@ public:
                     else { blocked = 0; }
 
                     break;
+
                     break;
 
                 default: blocked = 0;
@@ -282,6 +298,15 @@ public:
                 switch (cars[i]->getCurrentDir()) {
 
                 case Direction::EAST:
+                    if (cars[i]->getPos().x < 150) {
+                        return blocked = 1;
+                        //     std::cout << "blocked" << std::endl;
+                    }
+
+                    else { blocked = 0; }
+
+                    break;
+                case Direction::EAST_W:
                     if (cars[i]->getPos().x < 150) {
                         return blocked = 1;
                         //     std::cout << "blocked" << std::endl;

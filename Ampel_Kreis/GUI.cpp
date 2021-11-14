@@ -136,7 +136,7 @@ void GUI::initStartButton()
 
 }
 
-void GUI::checkStartButton(bool &startIsAllowed, sf::Clock &clock)
+void GUI::checkStartButton(bool& startIsAllowed, sf::Clock& clock)
 {
 	startButton->connect("pressed", [&]() {if (this->editBoxMinutes->getText().getSize() != 0 || this->editBoxSeconds->getText().getSize() != 0) {
 		startIsAllowed = true;
@@ -159,11 +159,11 @@ void GUI::initStopButton()
 	stopButton->setTextSize(20.f);
 	stopButton->setVisible(false);
 	stopButton->setEnabled(false);
-	
+
 }
 
 
-void GUI::checkStopButton(bool &startIsAllowed)
+void GUI::checkStopButton(bool& startIsAllowed)
 {
 	stopButton->connect("pressed", [&]() {startIsAllowed = false; });
 }
@@ -497,20 +497,16 @@ void GUI::ClickedOnClose(sf::RenderWindow* window, sf::Event event) {
 			this->warning->setVisible(false);
 			clock.restart();
 			return *startIsAllowed;
-
-
 		}
 		else {
 			this->warning->setVisible(true);
 		}
-
 	}
 }*/
 
 
 /*bool GUI::ClickedOnStop(sf::Event event, bool* startIsAllowed)
 {
-
 	if (this->stopButton->mouseOnWidget(tgui::Vector2f(event.mouseButton.x, event.mouseButton.y))) {
 		*startIsAllowed = false;
 		return *startIsAllowed;
@@ -563,4 +559,3 @@ void GUI::StartStopSwitch(bool switcher) {
 	}
 
 }
-

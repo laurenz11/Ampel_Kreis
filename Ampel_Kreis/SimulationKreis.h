@@ -12,7 +12,7 @@ class SimulationKreis
 {
 
 private:
-	
+
 	//Übernehmen der Wk´s aus dem GUI
 	int WkFahrer1;
 	int WkFahrer2;
@@ -62,8 +62,8 @@ public:
 	int startCounterSouthKV;
 	int startCounterWestKV;
 
-	
-	
+
+
 };
 
 
@@ -75,12 +75,10 @@ public:
 			endCounterWestKV++;
 			std::cout << endCounterWestKV << std::endl;
 		}
-
 		else if (autoso[i]->getPos().x > 1000) {
 			autoso.erase(autoso.begin() + i);
 			endCounterEastKV++;
 		}
-
 		else if (autoso[i]->getPos().y > 1000) {
 			autoso.erase(autoso.begin() + i);
 			endCounterSouthKV++;
@@ -89,11 +87,8 @@ public:
 			autoso.erase(autoso.begin() + i);
 			endCounterNorthKV++;
 		}
-
 	}
 }
-
-
 for (auto* i : this->autoso)
 	{
 		delete i;

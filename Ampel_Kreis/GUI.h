@@ -62,19 +62,18 @@ private:
 	tgui::Label::Ptr NordKV = tgui::Label::create();
 	tgui::Label::Ptr SuedKV = tgui::Label::create();
 
+	tgui::Label::Ptr Kreisverkehr = tgui::Label::create();
+
+	std::string secondsString;
+	std::string msecondsString;
+
+
 	//Verteilung variieren
 
 	tgui::Label::Ptr Wahrscheinlichkeit = tgui::Label::create();
 	tgui::Label::Ptr Fahrer1 = tgui::Label::create();
 	tgui::Label::Ptr Fahrer2 = tgui::Label::create();
 	tgui::Label::Ptr Fahrer3 = tgui::Label::create();
-
-
-	tgui::Label::Ptr Kreisverkehr = tgui::Label::create();
-
-	std::string secondsString;
-	std::string msecondsString;
-
 
 public:
 
@@ -101,13 +100,13 @@ public:
 
 	void updateCounterOutcome(int endCounterNorth, int endCounterEast, int endCounterSouth, int endCounterWest, int startCounterNorth, int startCounterEast, int startCounterSouth, int startCounterWest);
 	void updateCounterOutcomeKV(int endCounterNorth, int endCounterEast, int endCounterSouth, int endCounterWest, int startCounterNorth, int startCounterEast, int startCounterSouth, int startCounterWest);
-	
+
 	void ClickedOnClose(sf::RenderWindow* window, sf::Event event);
 	//bool ClickedOnStart(sf::Event e, bool* startIsAllowed, sf::Clock);
 	//bool ClickedOnStop(sf::Event e, bool* stopIsRequired);
 
-	void checkStopButton(bool &startIsAllowed);
-	void checkStartButton(bool &startIsAllowed, sf::Clock &clock);
+	void checkStopButton(bool& startIsAllowed);
+	void checkStartButton(bool& startIsAllowed, sf::Clock& clock);
 
 	void close(sf::RenderWindow* window);
 	void render(sf::RenderWindow* window);
