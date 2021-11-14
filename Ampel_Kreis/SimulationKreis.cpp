@@ -14,12 +14,12 @@ void SimulationKreis::run()
 {
 	//this->spawnAutos();
 	//this->updateAutos();
+	this->deleteAutosO();
 	this->moveAutos();
 }
 
 void SimulationKreis::moveAutosInKV()
 {
-	
 	for (int i = 0; i < autosOInKV.size(); i++)
 	{
 		autosOInKV[i]->checkDestination();
@@ -34,7 +34,7 @@ void SimulationKreis::moveAutosInKV()
 		else
 		{
 			autosOOutKv.push_back(autosOInKV[i]);
-			//autosOInKV.erase(autosOInKV.begin() + i);
+			autosOInKV.erase(autosOInKV.begin() + i);
 			std::cout << autosOOutKv.size() << std::endl;
 		}
 	}
@@ -49,10 +49,10 @@ void SimulationKreis::moveAutosbeforeKV()
 			autosO[i]->beschleunige();
 			autosO[i]->moveBeforeKV(autosO[i]->spawn, autosO[i]->weg);
 		}
-		else
+		else if(autosOInKV.size() <= 2)
 		{
 			autosOInKV.push_back(autosO[i]);
-			//autosO.erase(autosO.begin() + i);
+			autosO.erase(autosO.begin() + i);
 		}
 	}
 }
@@ -61,7 +61,7 @@ void SimulationKreis::moveAutosOutKV()
 {
 	for (int i = 0; i < autosOOutKv.size(); i++)
 	{
-		autosOOutKv[i]->internalTimer.restart();
+		//autosOOutKv[i]->internalTimer.restart();
 		autosOOutKv[i]->beschleunige();
 		autosOOutKv[i]->moveOutKV(autosOOutKv[i]->originalDirection, autosOOutKv[i]->weg);
 	}
@@ -76,8 +76,6 @@ void SimulationKreis::moveAutos()
 
 void SimulationKreis::spawnAutos()
 {
-	while (autosO.size() <= 5)
-	{
 		rndValueSpawn = rand() % 100;
 		rndValueDirection = rand() % 100;
 		rndValueType = rand() % 10;
@@ -107,20 +105,50 @@ void SimulationKreis::spawnAutos()
 			spawnAutosSued();
 
 		}
-		else
-			break;
-	}
 	
+}
+
+void SimulationKreis::deleteAutosO()
+{
+	for (int i = 0; i < autosOOutKv.size(); i++) {
+		if (autosOOutKv[i]->getPos().x < 0) {
+			autosOOutKv.erase(autosOOutKv.begin() + i);
+			endCounterWestKV++;
+			std::cout << endCounterWestKV << std::endl;
+		}
+
+		else if (autosOOutKv[i]->getPos().x > 1000) {
+			autosOOutKv.erase(autosOOutKv.begin() + i);
+			endCounterEastKV++;
+		}
+
+		else if (autosOOutKv[i]->getPos().y > 1000) {
+			autosOOutKv.erase(autosOOutKv.begin() + i);
+			endCounterSouthKV++;
+		}
+		else if (autosOOutKv[i]->getPos().y < 0) {
+			autosOOutKv.erase(autosOOutKv.begin() + i);
+			endCounterNorthKV++;
+		}
+
+	}
 }
 
 void SimulationKreis::renderAutosO(sf::RenderTarget& target)
 {
-	for (auto* x: this->autosO)
+	for (auto* x : this->autosO)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOOutKv)
+	{
+		x->render(target);
+	}
+	for (auto* x : this->autosOInKV)
 	{
 		x->render(target);
 	}
 }
-
 
 void SimulationKreis::spawnAutosNord()//spawn im Norden
 {

@@ -7,9 +7,16 @@ void Simulation::initWindow()
 	this->window->setFramerateLimit(165);
 	this->window->setVerticalSyncEnabled(false);
 
-	this->window2 = new sf::RenderWindow(sf::VideoMode(1000, 1000), "Kreisverkehr", sf::Style::Close | sf::Style::Titlebar);
+	this->window2 = new sf::RenderWindow(sf::VideoMode(1200, 1000), "Kreisverkehr", sf::Style::Close | sf::Style::Titlebar);
 	this->window2->setFramerateLimit(165);
 	this->window2->setVerticalSyncEnabled(false);
+}
+
+void Simulation::intiWahrscheinlichkeiten()
+{
+	WkFahrer1 = StringConverter::toInt(this->gui->WkFahrer1->getText());
+	WkFahrer2 = StringConverter::toInt(this->gui->WkFahrer2->getText());
+	WkFahrer3 = StringConverter::toInt(this->gui->WkFahrer3->getText());
 }
 
 void Simulation::initAuto()
@@ -118,6 +125,7 @@ void Simulation::run()
 		this->render();
 
 		if (startIsAllowed) {
+			this->intiWahrscheinlichkeiten();
 			this->updateAfterStart();
 			this->simulationKreisverkehr->run();
 			if (clock.getElapsedTime().asSeconds() >= this->gui->getTimeFromEditBox()) {
@@ -214,19 +222,19 @@ void Simulation::updateAuto()
 
 	if (spawn != Direction::NOWHERE) {
 		//rotes auto generieren
-		if (rndValue < 2) // rotes Auto 20 %
+		if (rndValue < WkFahrer1) // rotes Auto 20 %
 		{
 			this->autos.push_back(new Autos(spawn, Color::RED, Direction::EAST));
 			//std::cout << "pushed back" << std::endl;
 		}
 		//Gelbes Auto generieren
-		if (rndValue >= 2 && rndValue < 9) // gelbes Auto 70%
+		if (rndValue >=WkFahrer1 && rndValue < (WkFahrer1 + WkFahrer2)) // gelbes Auto 70%
 		{
 			this->autos.push_back(new Autos(spawn, Color::YELLOW, Direction::WEST));
 			//std::cout << "pushed back" << std::endl;
 		}
 		//Blaues Auto generieren
-		if (rndValue == 9) // blaues Auto 10 %
+		if (rndValue >=(WkFahrer1 + WkFahrer2)) // blaues Auto 10 %
 		{
 			this->autos.push_back(new Autos(spawn, Color::BLUE, Direction::EAST));
 			//std::cout << "pushed back" << std::endl;

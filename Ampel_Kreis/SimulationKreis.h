@@ -34,6 +34,7 @@ public:
 
 	void checkDestination();
 
+	void deleteAutosO();
 
 	void renderAutosO(sf::RenderTarget& target);
 
@@ -56,28 +57,7 @@ public:
 
 /*void Simulation::deleteAutosO()
 {
-	for (int i = 0; i < autoso.size(); i++) {
-		if (autoso[i]->getPos().x < 0) {
-			autoso.erase(autoso.begin() + i);
-			endCounterWestKV++;
-			std::cout << endCounterWestKV << std::endl;
-		}
-
-		else if (autoso[i]->getPos().x > 1000) {
-			autoso.erase(autoso.begin() + i);
-			endCounterEastKV++;
-		}
-
-		else if (autoso[i]->getPos().y > 1000) {
-			autoso.erase(autoso.begin() + i);
-			endCounterSouthKV++;
-		}
-		else if (autoso[i]->getPos().y < 0) {
-			autoso.erase(autoso.begin() + i);
-			endCounterNorthKV++;
-		}
-
-	}
+	
 }
 
 

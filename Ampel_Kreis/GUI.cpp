@@ -57,6 +57,16 @@ GUI::GUI(sf::RenderWindow* window) {
 
 	gui.add(labelCounterOutcomeStartKV);
 	gui.add(labelCounterOutcomeZielKV);
+
+	//Verteilungen
+	gui.add(WkFahrer1);
+	gui.add(WkFahrer2);
+	gui.add(WkFahrer3);
+
+	gui.add(Wahrscheinlichkeit);
+	gui.add(Fahrer1);
+	gui.add(Fahrer2);
+	gui.add(Fahrer3);
 }
 
 void GUI::initGUI(sf::RenderWindow* window) {
@@ -73,6 +83,7 @@ void GUI::initGUI(sf::RenderWindow* window) {
 	this->initCounterOutcomeKV();
 	this->initLabelCounterOutcomeKV();
 	this->initRichtungen();
+	this->initVerteilungen();
 }
 
 
@@ -89,7 +100,6 @@ unsigned int GUI::getTimeFromEditBox() {
 	else if (editBoxSeconds->getText().getSize() == 0) {
 		return StringConverter::toInt(editBoxMinutes->getText()) * 60;
 	}
-
 	else
 		return (StringConverter::toInt(editBoxMinutes->getText()) * 60 + StringConverter::toInt(editBoxSeconds->getText()));
 
@@ -394,6 +404,48 @@ void GUI::initRichtungen()
 	NordKV->setPosition(1000.f, 300.f);
 }
 
+void GUI::initVerteilungen()
+{
+	WkFahrer1->setSize(60.f, 40.f);
+	WkFahrer1->setPosition(1100.f, 500.f);
+	WkFahrer1->getRenderer()->setFont(font);
+	WkFahrer1->setTextSize(18);
+
+	WkFahrer2->setSize(60.f, 40.f);
+	WkFahrer2->setPosition(1200.f, 500.f);
+	WkFahrer2->getRenderer()->setFont(font);
+	WkFahrer2->setTextSize(18);
+
+	WkFahrer3->setSize(60.f, 40.f);
+	WkFahrer3->setPosition(1300.f, 500.f);
+	WkFahrer3->getRenderer()->setFont(font);
+	WkFahrer3->setTextSize(18);
+
+	Wahrscheinlichkeit->setSize(350.f, 35.f);
+	Wahrscheinlichkeit->setPosition(1100.f, 400.f);
+	Wahrscheinlichkeit->getRenderer()->setFont(font);
+	Wahrscheinlichkeit->setText("Warscheinlichkeiten[%] varriieren: ");
+	Wahrscheinlichkeit->setTextSize(20.f);
+
+	Fahrer1->setSize(70.f,40.f);
+	Fahrer1->setText("Fahrer 1");
+	Fahrer1->setPosition(1100.f,450.f );
+	Fahrer1->getRenderer()->setFont(font);
+	Fahrer1->setTextSize(16);
+
+	Fahrer2->setSize(70.f, 40.f);
+	Fahrer2->setText("Fahrer 2");
+	Fahrer2->setPosition(1200.f, 450.f);
+	Fahrer2->getRenderer()->setFont(font);
+	Fahrer2->setTextSize(16);
+
+	Fahrer3->setSize(70.f, 40.f);
+	Fahrer3->setText("Fahrer 3");
+	Fahrer3->setPosition(1300.f, 450.f);
+	Fahrer3->getRenderer()->setFont(font);
+	Fahrer3->setTextSize(16);
+
+}
 
 void GUI::updateCounterOutcome(int endCounterNorth, int endCounterEast, int endCounterSouth, int endCounterWest, int startCounterNorth, int startCounterEast, int startCounterSouth, int startCounterWest) {
 	outcomeEast->setText(StringConverter::toString(endCounterEast));

@@ -40,6 +40,7 @@ private:
 	void initKreuzverkehr();
 	void initKreisverkehr();
 	void renderWorld();
+	void intiWahrscheinlichkeiten();
 
 	//GUI-Sachen erstellen
 	void initGUI();
@@ -60,6 +61,10 @@ public:
 	void update();
 	void render();
 
+	//Übernehmen der Wk´s aus dem GUI
+	int WkFahrer1;
+	int WkFahrer2;
+	int WkFahrer3;
 
 	void backToGUI(); //ermöglich es Zeit, Anzahl Fahrzeuge an das GUI zu übergeben und zu rendern
 

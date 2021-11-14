@@ -66,6 +66,8 @@ AutosO::AutosO(Direction spawn, Color color, Direction direction, float Reaction
 
 }
 
+
+
 void AutosO::beschleunige()
 {
     geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
@@ -77,7 +79,7 @@ void AutosO::beschleunigeInKV()
     alphaBefore = alpha;
     geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
     alpha = 0.5 * (beschleunigung/(radius*0.1)) * pow(rechnungszeit(), 2) + anfangsgeschwindigkeit * rechnungszeit();
-    std::cout << alpha << std::endl;
+    //std::cout << alpha << std::endl;
     gesamtWeg = gesamtWeg + alpha - alphaBefore;
 }
 
@@ -142,7 +144,7 @@ void AutosO::moveInKV()
 
 void AutosO::checkDestination()
 {
-    if (spawn == Direction::WEST && originalDirection == Direction::NORTH || spawn == Direction::SOUTH && originalDirection == Direction::EAST || spawn == Direction::EAST && originalDirection == Direction::NORTH || spawn == Direction::NORTH && originalDirection == Direction::WEST)
+    if (spawn == Direction::WEST && originalDirection == Direction::SOUTH || spawn == Direction::SOUTH && originalDirection == Direction::EAST || spawn == Direction::EAST && originalDirection == Direction::NORTH || spawn == Direction::NORTH && originalDirection == Direction::WEST)
     {
         if (alpha >= 0.5 * M_PI)
         {
