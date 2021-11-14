@@ -83,7 +83,7 @@ void AutosO::beschleunigeInKV()
 {
     alphaBefore = alpha;
     geschwindigkeit = beschleunigung * rechnungszeit() + anfangsgeschwindigkeit;
-    alpha = 0.5 * (beschleunigung/(radius*0.1)) * pow(rechnungszeit() - 1.5 , 2) + anfangsgeschwindigkeit * rechnungszeit();
+    alpha = 0.5 * (beschleunigung/(radius*0.04)) * pow(rechnungszeit() - 1.5 , 2) + anfangsgeschwindigkeit * rechnungszeit();
     //std::cout << alpha << std::endl;
     gesamtWeg = gesamtWeg + alpha - alphaBefore;
 }

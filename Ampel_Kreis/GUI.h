@@ -62,6 +62,14 @@ private:
 	tgui::Label::Ptr NordKV = tgui::Label::create();
 	tgui::Label::Ptr SuedKV = tgui::Label::create();
 
+	//Verteilung variieren
+
+	tgui::Label::Ptr Wahrscheinlichkeit = tgui::Label::create();
+	tgui::Label::Ptr Fahrer1 = tgui::Label::create();
+	tgui::Label::Ptr Fahrer2 = tgui::Label::create();
+	tgui::Label::Ptr Fahrer3 = tgui::Label::create();
+
+
 	tgui::Label::Ptr Kreisverkehr = tgui::Label::create();
 
 	std::string secondsString;
@@ -89,6 +97,7 @@ public:
 	void initCounterOutcomeKV();
 	void initLabelCounterOutcomeKV();
 	void initRichtungen();
+	void initVerteilungen();
 
 	void updateCounterOutcome(int endCounterNorth, int endCounterEast, int endCounterSouth, int endCounterWest, int startCounterNorth, int startCounterEast, int startCounterSouth, int startCounterWest);
 	void updateCounterOutcomeKV(int endCounterNorth, int endCounterEast, int endCounterSouth, int endCounterWest, int startCounterNorth, int startCounterEast, int startCounterSouth, int startCounterWest);
@@ -113,5 +122,8 @@ public:
 
 	void StartStopSwitch(bool switcher);
 
+	tgui::EditBox::Ptr WkFahrer1 = tgui::EditBox::create();
+	tgui::EditBox::Ptr WkFahrer2 = tgui::EditBox::create();
+	tgui::EditBox::Ptr WkFahrer3 = tgui::EditBox::create();
 
 };

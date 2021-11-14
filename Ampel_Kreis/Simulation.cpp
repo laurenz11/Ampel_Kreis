@@ -38,6 +38,13 @@ void Simulation::initKreisverkehr()
 	this->Kreisverkehr.setScale(2, 2);
 }
 
+void Simulation::initWahrscheinlichkeiten()
+{
+	WkFahrer1 = StringConverter::toInt(this->gui->WkFahrer1->getText());
+	WkFahrer2 = StringConverter::toInt(this->gui->WkFahrer2->getText());
+	WkFahrer3 = StringConverter::toInt(this->gui->WkFahrer3->getText());
+}
+
 void Simulation::renderWorld()
 {
 	this->window->draw(this->Kreuzverkehr);
@@ -118,6 +125,8 @@ void Simulation::run()
 		this->render();
 
 		if (startIsAllowed) {
+			this->initWahrscheinlichkeiten();
+			this->simulationKreisverkehr->initWahrscheinlichkeiten(WkFahrer1, WkFahrer2, WkFahrer3);
 			this->updateAfterStart();
 			this->simulationKreisverkehr->run();
 			if (clock.getElapsedTime().asSeconds() >= this->gui->getTimeFromEditBox()) {
@@ -159,7 +168,7 @@ void Simulation::deleteAutos()
 void Simulation::updateAuto()
 {
 
-	int rndValue = rand() % 10;
+	int rndValue = rand() % 100;
 	//std::cout << rndValue << std::endl;
 	int rndAnfahrt = rand() % 100;
 	Direction spawn;
@@ -214,19 +223,19 @@ void Simulation::updateAuto()
 
 	if (spawn != Direction::NOWHERE) {
 		//rotes auto generieren
-		if (rndValue < 2) // rotes Auto 20 %
+		if (rndValue < WkFahrer1) // rotes Auto 20 %
 		{
 			this->autos.push_back(new Autos(spawn, Color::RED, Direction::EAST));
 			//std::cout << "pushed back" << std::endl;
 		}
 		//Gelbes Auto generieren
-		if (rndValue >= 2 && rndValue < 9) // gelbes Auto 70%
+		if (rndValue >= WkFahrer1 && rndValue < WkFahrer1 + WkFahrer2) // gelbes Auto 70%
 		{
 			this->autos.push_back(new Autos(spawn, Color::YELLOW, Direction::WEST));
 			//std::cout << "pushed back" << std::endl;
 		}
 		//Blaues Auto generieren
-		if (rndValue == 9) // blaues Auto 10 %
+		if (rndValue >= WkFahrer1 + WkFahrer3) // blaues Auto 10 %
 		{
 			this->autos.push_back(new Autos(spawn, Color::BLUE, Direction::EAST));
 			//std::cout << "pushed back" << std::endl;

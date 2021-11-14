@@ -14,7 +14,7 @@ private:
 	sf::RenderWindow* window2;
 
 
-	GUI* gui;
+	
 	sf::Clock clock;
 
 	SimulationKreis* simulationKreisverkehr;
@@ -40,6 +40,7 @@ private:
 	void initKreuzverkehr();
 	void initKreisverkehr();
 	void renderWorld();
+	void initWahrscheinlichkeiten();
 
 	//GUI-Sachen erstellen
 	void initGUI();
@@ -51,6 +52,8 @@ public:
 	Simulation();
 	virtual ~Simulation();
 	
+	
+
 	//funktionen
 	void run();
 	void updateAuto();
@@ -60,8 +63,15 @@ public:
 	void update();
 	void render();
 
+	//Übernehmen der Wk´s aus dem GUI
+	int WkFahrer1;
+	int WkFahrer2;
+	int WkFahrer3;
 
+
+	GUI* gui;
 	void backToGUI(); //ermöglich es Zeit, Anzahl Fahrzeuge an das GUI zu übergeben und zu rendern
+
 
 	int endCounterNorth;
 	int endCounterEast;

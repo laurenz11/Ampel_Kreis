@@ -70,7 +70,7 @@ public:
                 switch (cars[i]->getCurrentDir()) {
 
                 case Direction::SOUTH:
-                    if (cars[i]->getPos().y < 150) {
+                    if (cars[i]->getPos().y < 250) {
                         return blocked = 1;
                         //std::cout << "blocked" << std::endl;
                     }
@@ -112,7 +112,7 @@ public:
                 switch (cars[i]->getCurrentDir()) {
 
                 case Direction::NORTH:
-                    if (cars[i]->getPos().y > 850) {
+                    if (cars[i]->getPos().y > 750) {
                         return blocked = 1;
                         // std::cout << "blocked" << std::endl;
                     }
@@ -240,7 +240,7 @@ public:
                 switch (cars[i]->getCurrentDir()) {
 
                 case Direction::WEST:
-                    if (cars[i]->getPos().x > 850) {
+                    if (cars[i]->getPos().x > 750) {
                         return blocked = 1;
                         //  std::cout << "blocked" << std::endl;
                     }
@@ -324,7 +324,7 @@ public:
                 switch (cars[i]->getCurrentDir()) {
 
                 case Direction::EAST:
-                    if (cars[i]->getPos().x < 150) {
+                    if (cars[i]->getPos().x < 250) {
                         return blocked = 1;
                         //     std::cout << "blocked" << std::endl;
                     }
